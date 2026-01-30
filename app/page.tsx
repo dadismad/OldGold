@@ -342,80 +342,116 @@ export default function Home() {
               {/* Default Content - Hidden when expanded */}
               {!isActive && (
               <div 
-                className="relative z-10 flex flex-col items-center text-center transition-all duration-500"
+                className={`relative z-10 transition-all duration-500 ${isMobile ? 'flex items-center justify-between w-full' : 'flex flex-col items-center text-center'}`}
                 style={{
-                  padding: isMobile ? `${scale.spaceBase}px` : `${scale.spaceLg}px`,
+                  padding: isMobile ? `${scale.spaceXs}px ${scale.spaceSm}px` : `${scale.spaceLg}px`,
                   transform: isMobile ? 'none' : `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`,
                   transformStyle: 'preserve-3d',
                 }}
               >
-                {/* Trust Badges - Above everything */}
-                <div 
-                  className="flex items-center justify-center text-slate-500 dark:text-slate-400"
-                  style={{ 
-                    gap: `${scale.spaceXs}px`, 
-                    marginBottom: `${scale.spaceSm}px`,
-                    fontSize: `${scale.textXs * 0.75}px`,
-                    transform: isMobile ? 'none' : 'translateZ(30px)',
-                  }}
-                >
-                  <span className="flex items-center" style={{ gap: `${scale.spaceXs / 2}px` }}>
-                    <Shield size={scale.textXs * 0.8} /> Verified
-                  </span>
-                  <span className="flex items-center" style={{ gap: `${scale.spaceXs / 2}px` }}>
-                    <Award size={scale.textXs * 0.8} /> Trusted
-                  </span>
-                  <span className="flex items-center" style={{ gap: `${scale.spaceXs / 2}px` }}>
-                    <TrendingUp size={scale.textXs * 0.8} /> Ready
-                  </span>
+                {/* Mobile: Left side content */}
+                <div className={isMobile ? 'flex items-center gap-3' : 'contents'}>
+                  {/* Icon Container */}
+                  <div 
+                    className="rounded-2xl flex items-center justify-center bg-white dark:bg-slate-800 shadow-lg transition-all duration-300 hover:shadow-xl border border-slate-200 dark:border-slate-600 flex-shrink-0"
+                    style={{ 
+                      width: `${Math.round(scale.iconContainerSize * (isMobile ? 0.8 : PHI))}px`,
+                      height: `${Math.round(scale.iconContainerSize * (isMobile ? 0.8 : PHI))}px`,
+                      marginBottom: isMobile ? 0 : `${scale.spaceSm}px`,
+                      transform: isMobile ? 'none' : 'translateZ(20px)',
+                    }}
+                  >
+                    <Icon size={Math.round(scale.iconSize * (isMobile ? 0.8 : PHI))} className="text-slate-700 dark:text-slate-200" />
+                  </div>
+                  
+                  {/* Mobile: Title and brands inline */}
+                  {isMobile && (
+                    <div className="text-left flex-1">
+                      <h2 
+                        className="font-bold text-slate-800 dark:text-slate-100"
+                        style={{ fontSize: `${scale.textSm}px`, lineHeight: 1.2, marginBottom: `${scale.spaceXs / 2}px` }}
+                      >
+                        {service.title}
+                      </h2>
+                      <div className="flex flex-wrap" style={{ gap: `${scale.spaceXs / 3}px` }}>
+                        {service.brands.slice(0, 5).map((brand, i) => (
+                          <span 
+                            key={i}
+                            className="bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded"
+                            style={{ 
+                              fontSize: `${scale.textXs * 0.65}px`,
+                              padding: `${scale.spaceXs / 4}px ${scale.spaceXs / 2}px`,
+                            }}
+                          >
+                            {brand}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
-                {/* Icon Container */}
-                <div 
-                  className="rounded-2xl flex items-center justify-center bg-white dark:bg-slate-800 shadow-lg transition-all duration-300 hover:shadow-xl border border-slate-200 dark:border-slate-600"
-                  style={{ 
-                    width: `${Math.round(scale.iconContainerSize * (isMobile ? 1 : PHI))}px`,
-                    height: `${Math.round(scale.iconContainerSize * (isMobile ? 1 : PHI))}px`,
-                    marginBottom: `${scale.spaceSm}px`,
-                    transform: isMobile ? 'none' : 'translateZ(20px)',
-                  }}
-                >
-                  <Icon size={Math.round(scale.iconSize * (isMobile ? 1 : PHI))} className="text-slate-700 dark:text-slate-200" />
-                </div>
+                {/* Desktop only: Trust Badges */}
+                {!isMobile && (
+                  <div 
+                    className="flex items-center justify-center text-slate-500 dark:text-slate-400"
+                    style={{ 
+                      gap: `${scale.spaceXs}px`, 
+                      marginBottom: `${scale.spaceSm}px`,
+                      fontSize: `${scale.textXs * 0.75}px`,
+                      transform: 'translateZ(30px)',
+                      order: -1,
+                    }}
+                  >
+                    <span className="flex items-center" style={{ gap: `${scale.spaceXs / 2}px` }}>
+                      <Shield size={scale.textXs * 0.8} /> Verified
+                    </span>
+                    <span className="flex items-center" style={{ gap: `${scale.spaceXs / 2}px` }}>
+                      <Award size={scale.textXs * 0.8} /> Trusted
+                    </span>
+                    <span className="flex items-center" style={{ gap: `${scale.spaceXs / 2}px` }}>
+                      <TrendingUp size={scale.textXs * 0.8} /> Ready
+                    </span>
+                  </div>
+                )}
                 
-                {/* Title */}
-                <h2 
-                  className="font-bold text-slate-800 dark:text-slate-100"
-                  style={{ 
-                    fontSize: `${isMobile ? scale.textSm : scale.textBase}px`,
-                    lineHeight: 1.2,
-                    marginBottom: `${scale.spaceXs}px`,
-                    transform: isMobile ? 'none' : 'translateZ(15px)',
-                  }}
-                >
-                  {service.title}
-                </h2>
+                {/* Desktop only: Title */}
+                {!isMobile && (
+                  <h2 
+                    className="font-bold text-slate-800 dark:text-slate-100"
+                    style={{ 
+                      fontSize: `${scale.textBase}px`,
+                      lineHeight: 1.2,
+                      marginBottom: `${scale.spaceXs}px`,
+                      transform: 'translateZ(15px)',
+                    }}
+                  >
+                    {service.title}
+                  </h2>
+                )}
                 
-                {/* Brand Preview */}
-                <p 
-                  className="text-slate-600 dark:text-slate-400"
-                  style={{ 
-                    fontSize: `${scale.textXs * 0.9}px`,
-                    marginBottom: `${scale.spaceSm}px`,
-                    transform: isMobile ? 'none' : 'translateZ(10px)',
-                  }}
-                >
-                  {service.brands.slice(0, 3).join(' • ')}
-                </p>
+                {/* Desktop only: Brand Preview */}
+                {!isMobile && (
+                  <p 
+                    className="text-slate-600 dark:text-slate-400"
+                    style={{ 
+                      fontSize: `${scale.textXs * 0.9}px`,
+                      marginBottom: `${scale.spaceSm}px`,
+                      transform: 'translateZ(10px)',
+                    }}
+                  >
+                    {service.brands.slice(0, 3).join(' • ')}
+                  </p>
+                )}
                 
                 {/* CTA Button */}
                 <button 
-                  className="bg-amber-600 dark:bg-amber-500 text-white rounded-lg font-semibold hover:bg-amber-700 dark:hover:bg-amber-600 transition-all duration-300 flex items-center shadow-md"
+                  className="bg-amber-600 dark:bg-amber-500 text-white rounded-lg font-semibold hover:bg-amber-700 dark:hover:bg-amber-600 transition-all duration-300 flex items-center shadow-md flex-shrink-0"
                   style={{
                     padding: `${scale.spaceXs}px ${scale.spaceSm}px`,
                     fontSize: `${scale.textXs * 0.9}px`,
                     gap: `${scale.spaceXs / 2}px`,
-                    transform: isMobile ? 'none' : 'translateZ(25px)',
+                    transform: isMobile ? 'rotate(15deg)' : 'translateZ(25px)',
                   }}
                 >
                   {isMobile ? 'Tap' : 'Explore'}
