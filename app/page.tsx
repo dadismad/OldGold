@@ -174,14 +174,6 @@ export default function Home() {
       >
         <div className="flex items-center justify-between max-w-7xl mx-auto w-full">
           <div className="flex items-center" style={{ gap: `${scale.spaceSm}px` }}>
-            {/* Theme Toggle - Left of Logo */}
-            <button
-              onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
-              className="rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors p-1.5"
-              aria-label="Toggle theme"
-            >
-              {mounted ? (resolvedTheme === 'dark' ? <Sun size={16} /> : <Moon size={16} />) : <Moon size={16} />}
-            </button>
             <Link 
               href="/" 
               className="font-bold tracking-tight" 
@@ -197,13 +189,22 @@ export default function Home() {
             </span>
           </div>
           
-          {/* Hamburger Menu Button */}
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors p-2"
-          >
-            {menuOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
+          {/* Right side: Theme Toggle + Hamburger Menu */}
+          <div className="flex items-center" style={{ gap: `${scale.spaceXs}px` }}>
+            <button
+              onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
+              className="rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors p-1.5"
+              aria-label="Toggle theme"
+            >
+              {mounted ? (resolvedTheme === 'dark' ? <Sun size={16} /> : <Moon size={16} />) : <Moon size={16} />}
+            </button>
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors p-2"
+            >
+              {menuOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </div>
         </div>
       </header>
 
