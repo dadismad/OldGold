@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { useTheme } from 'next-themes';
-import { Moon, Sun, Landmark, Bitcoin, ArrowLeftRight, X, ChevronRight, ChevronDown, Shield, Award, TrendingUp, Check, Menu, Globe } from 'lucide-react';
+import { Sun, Landmark, Bitcoin, ArrowLeftRight, X, ChevronRight, ChevronDown, Shield, Award, TrendingUp, Check, Menu, Globe } from 'lucide-react';
 import Link from 'next/link';
 import { useLanguage } from '@/components/LanguageProvider';
 
@@ -90,7 +89,6 @@ const services = [
 ];
 
 export default function Home() {
-  const { theme, setTheme, resolvedTheme } = useTheme();
   const { language, setLanguage, t } = useLanguage();
   const [mounted, setMounted] = useState(false);
   const [activeService, setActiveService] = useState<string | null>(null);
@@ -178,9 +176,10 @@ export default function Home() {
           <div className="flex items-center" style={{ gap: `${scale.spaceSm}px` }}>
             <Link 
               href="/" 
-              className="font-bold tracking-tight" 
-              style={{ fontSize: `${scale.textSm}px` }}
+              className="font-bold tracking-tight flex items-center" 
+              style={{ fontSize: `${scale.textSm}px`, gap: `${scale.spaceXs}px` }}
             >
+              <Sun size={18} className="text-amber-500" />
               <span className="text-slate-700 dark:text-slate-200">Old</span>{' '}<span className="text-amber-600 dark:text-amber-400">Gold</span>
             </Link>
             <span 
@@ -191,7 +190,7 @@ export default function Home() {
             </span>
           </div>
           
-          {/* Right side: Language + Theme Toggle + Hamburger Menu */}
+          {/* Right side: Language + Hamburger Menu */}
           <div className="flex items-center" style={{ gap: `${scale.spaceXs}px` }}>
             <button
               onClick={() => setLanguage(language === 'en' ? 'ru' : 'en')}
@@ -200,13 +199,6 @@ export default function Home() {
             >
               <Globe size={14} />
               <span style={{ fontSize: '11px', fontWeight: 500 }}>{language.toUpperCase()}</span>
-            </button>
-            <button
-              onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
-              className="rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors p-1.5"
-              aria-label="Toggle theme"
-            >
-              {mounted ? (resolvedTheme === 'dark' ? <Sun size={16} /> : <Moon size={16} />) : <Moon size={16} />}
             </button>
             <button
               onClick={() => setMenuOpen(!menuOpen)}
