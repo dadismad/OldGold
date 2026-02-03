@@ -2,8 +2,9 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useTheme } from 'next-themes';
-import { Moon, Sun, Landmark, Bitcoin, ArrowLeftRight, X, ChevronRight, ChevronDown, Shield, Award, TrendingUp, Check, Menu } from 'lucide-react';
+import { Moon, Sun, Landmark, Bitcoin, ArrowLeftRight, X, ChevronRight, ChevronDown, Shield, Award, TrendingUp, Check, Menu, Globe } from 'lucide-react';
 import Link from 'next/link';
+import { useLanguage } from '@/components/LanguageProvider';
 
 // Divine Proportion (Golden Ratio) φ = 1.618033988749895
 const PHI = 1.618033988749895;
@@ -90,6 +91,7 @@ const services = [
 
 export default function Home() {
   const { theme, setTheme, resolvedTheme } = useTheme();
+  const { language, setLanguage, t } = useLanguage();
   const [mounted, setMounted] = useState(false);
   const [activeService, setActiveService] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
@@ -185,12 +187,20 @@ export default function Home() {
               className="text-slate-500 dark:text-slate-400 italic hidden sm:inline" 
               style={{ fontSize: `${scale.textXs * 0.75}px` }}
             >
-              Accounts with receding hairline.
+              {t('tagline')}
             </span>
           </div>
           
-          {/* Right side: Theme Toggle + Hamburger Menu */}
+          {/* Right side: Language + Theme Toggle + Hamburger Menu */}
           <div className="flex items-center" style={{ gap: `${scale.spaceXs}px` }}>
+            <button
+              onClick={() => setLanguage(language === 'en' ? 'ru' : 'en')}
+              className="rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors p-1.5 flex items-center gap-1"
+              aria-label="Toggle language"
+            >
+              <Globe size={14} />
+              <span style={{ fontSize: '11px', fontWeight: 500 }}>{language.toUpperCase()}</span>
+            </button>
             <button
               onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
               className="rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors p-1.5"
@@ -221,7 +231,7 @@ export default function Home() {
             style={{ fontSize: `${scale.textXs}px` }}
             onClick={() => setMenuOpen(false)}
           >
-            Sign Up
+            {t('signUp')}
           </Link>
           <Link 
             href="/login"
@@ -229,7 +239,7 @@ export default function Home() {
             style={{ fontSize: `${scale.textXs}px` }}
             onClick={() => setMenuOpen(false)}
           >
-            Login
+            {t('login')}
           </Link>
           <div className="border-t border-slate-200 dark:border-slate-700 my-1"></div>
           {/* Seller Conversion */}
@@ -239,17 +249,25 @@ export default function Home() {
             style={{ fontSize: `${scale.textXs}px` }}
             onClick={() => setMenuOpen(false)}
           >
-            Become a Seller
+            {t('becomeSeller')}
           </Link>
           <div className="border-t border-slate-200 dark:border-slate-700 my-1"></div>
           {/* Information Pages */}
+          <Link 
+            href="/how-it-works"
+            className="flex items-center px-4 py-3 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+            style={{ fontSize: `${scale.textXs}px` }}
+            onClick={() => setMenuOpen(false)}
+          >
+            {t('howItWorks')}
+          </Link>
           <Link 
             href="/about"
             className="flex items-center px-4 py-3 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
             style={{ fontSize: `${scale.textXs}px` }}
             onClick={() => setMenuOpen(false)}
           >
-            About Us
+            {t('about')}
           </Link>
           <Link 
             href="/contacts"
@@ -257,17 +275,25 @@ export default function Home() {
             style={{ fontSize: `${scale.textXs}px` }}
             onClick={() => setMenuOpen(false)}
           >
-            Contact
+            {t('contacts')}
           </Link>
           <div className="border-t border-slate-200 dark:border-slate-700 my-1"></div>
           {/* Legal - Lowest Priority */}
+          <Link 
+            href="/risks"
+            className="flex items-center px-4 py-3 text-orange-500 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/30 transition-colors"
+            style={{ fontSize: `${scale.textXs * 0.9}px` }}
+            onClick={() => setMenuOpen(false)}
+          >
+            {t('risks')}
+          </Link>
           <Link 
             href="/privacy"
             className="flex items-center px-4 py-3 text-slate-400 dark:text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
             style={{ fontSize: `${scale.textXs * 0.9}px` }}
             onClick={() => setMenuOpen(false)}
           >
-            Privacy Policy
+            {t('privacy')}
           </Link>
         </div>
       )}
@@ -540,7 +566,7 @@ export default function Home() {
                             fontSize: `${scale.textXs * 0.85}px`,
                           }}
                         >
-                          View Pricing
+                          {t('buyAccount')}
                         </button>
                       )}
                     </div>
@@ -621,7 +647,7 @@ export default function Home() {
                             fontSize: `${Math.round(scale.textXs * 1.236)}px`,
                           }}
                         >
-                          View Pricing
+                          {t('buyAccount')}
                         </button>
                       )}
                     </div>
